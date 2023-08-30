@@ -9,3 +9,5 @@ Constancy.Live is available at this **[link](https://constancy.live)**
 ## Licensing
 
 Constancy.Live is open source and is licensed under **[GPL-3](https://github.com/jonathan-lee-devel/constancy/blob/main/LICENSE)**
+
+![Intro](https://github.com/jonathan-lee-devel/constancy/blob/main/intro.png?raw=true)

@@ -1,0 +1,41 @@
+constancy:
+  gateway:
+    url: http://localhost:8082
+  front-end:
+    url: http://localhost:4200
+  jenkins-service:
+    url: http://localhost:8083
+server:
+  port: ${GATEWAY_PORT}
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: ${constancy.frontend.url}
+            allowedMethods: '*'
+            allowedHeaders: '*'
+      routes:
+        - id: jenkins-service
+          uri: ${constancy.jenkins-service.url}
+          predicates:
+            - Path=/**
+      default-filters:
+        - TokenRelay
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: constancy-java-client
+            client-secret: GoR6T5SKpx9b4evHanFmZzgCKyDpU1TM
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/constancy
+            user-name-attribute: preferred_username

@@ -15,7 +15,7 @@ public class PrincipalHelper {
 
   private PrincipalHelper() {}
 
-  public static String extractUsername(Principal principal) {
+  public static String extractUserId(Principal principal) {
     return principal.getName();
   }
 

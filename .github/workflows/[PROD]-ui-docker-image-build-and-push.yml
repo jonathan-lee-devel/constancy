@@ -26,4 +26,4 @@ jobs:
           context: '{{defaultContext}}:./constancy-ui/'
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/constancy-ui:0.1.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/constancy-ui:0.1.1

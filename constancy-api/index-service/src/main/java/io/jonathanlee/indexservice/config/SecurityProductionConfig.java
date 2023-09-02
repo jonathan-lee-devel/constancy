@@ -1,4 +1,4 @@
-package io.jonathanlee.organizationservice.config;
+package io.jonathanlee.indexservice.config;
 
 import io.jonathanlee.commonlib.profile.ApplicationProfile;
 import org.springframework.context.annotation.Bean;

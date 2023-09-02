@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {ProfileService} from '../profile/profile.service';
 import {RoutePaths} from '../../app-routing.module';
+import {ModalService} from '../modal/modal.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,12 @@ import {RoutePaths} from '../../app-routing.module';
  */
 export class AuthService {
   public static readonly DEFAULT_USER: UserDto = {
-    email: 'user@mail.com',
+    id: 'user@mail.com',
     firstName: 'Anonymous',
     lastName: 'Anonymous',
   };
   private static readonly USER_DATA_KEY: string = 'userInfo';
+  private static readonly LOGOUT_REDIRECT_KEY: string = 'logoutRedirect';
 
   @Output() isLoggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -28,14 +30,14 @@ export class AuthService {
 
   /**
    * Standard constructor
-   * @param {HttpClient} httpClient used to access backend API
    * @param {Router} router used to route accordingly
    * @param {ProfileService} profileService used to obtain user data on Google sign-in
+   * @param {ModalService} modalService used to display messages to the user
    */
   constructor(
-    private httpClient: HttpClient,
     private router: Router,
     private profileService: ProfileService,
+    private modalService: ModalService,
   ) {
   }
 
@@ -87,6 +89,7 @@ export class AuthService {
   }
 
   doLogin(): void {
+    sessionStorage.setItem(AuthService.LOGOUT_REDIRECT_KEY, String(false));
     window.location.href = environment.GATEWAY_API_RAW_URL;
   }
 
@@ -97,19 +100,39 @@ export class AuthService {
     this.deleteUserInfo();
     this.isLoggedIn.next(false);
     this.userInfo.next(AuthService.DEFAULT_USER);
+    sessionStorage.setItem(AuthService.LOGOUT_REDIRECT_KEY, String(true));
     window.location.href = `${environment.GATEWAY_API_RAW_URL}/logout`;
   }
 
-  private onSuccessfulLogin(userInfo: UserDto) {
+  onSuccessfulLogout() {
+    this.deleteUserInfo();
+    this.isLoggedIn.next(false);
+    this.userInfo.next(AuthService.DEFAULT_USER);
+    sessionStorage.setItem(AuthService.LOGOUT_REDIRECT_KEY, String(false));
+    window.location.href = `${environment.GATEWAY_API_RAW_URL}/`;
+  }
+
+  checkKeycloakLoginStatus() {
+    this.profileService.getUserInfo().subscribe((userInfo) => {
+      if (sessionStorage.getItem(AuthService.LOGOUT_REDIRECT_KEY) === String(true)) {
+        this.modalService.showDefaultModal('Security Warning', 'You were redirected to the logout page but are still logged in');
+      }
+      this.onSuccessfulLogin(userInfo);
+    });
+  }
+
+  private onSuccessfulLogin(userInfo: UserDto, reRoute?: boolean) {
     this.setUserInfo(userInfo);
     this.isLoggedIn.next(true);
     this.userInfo.next(userInfo);
-    this.router.navigate([`/${RoutePaths.DASHBOARD}`]).catch((reason) => window.alert(reason));
+    if (reRoute) {
+      this.router.navigate([`/${RoutePaths.DASHBOARD}`]).catch((reason) => window.alert(reason));
+    }
   }
 
   onSuccessfulKeycloakLogin() {
     this.profileService.getUserInfo().subscribe((userInfo) => {
-      this.onSuccessfulLogin(userInfo);
+      this.onSuccessfulLogin(userInfo, true);
     });
   }
 }

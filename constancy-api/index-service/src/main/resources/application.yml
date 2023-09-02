@@ -10,30 +10,11 @@ constancy:
   organization-service:
     url: http://localhost:8083
 server:
-  port: ${GATEWAY_PORT}
+  port: ${INDEX_SERVICE_PORT}
 spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: ${constancy.front-end.url}
-            allowedMethods: '*'
-            allowedHeaders: '*'
-      routes:
-        - id: index-service
-          uri: ${constancy.index-service.url}
-          predicates:
-            - Path=/**
-        - id: organization-service
-          uri: ${constancy.organization-service.url}
-          predicates:
-            - Path=/organizations/**
-      default-filters:
-        - TokenRelay
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/constancy-organization-service
   security:
     oauth2:
       client:
@@ -47,3 +28,6 @@ spring:
           keycloak:
             issuer-uri: ${constancy.keycloak.url}/realms/constancy
             user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: ${constancy.keycloak.url}/realms/constancy

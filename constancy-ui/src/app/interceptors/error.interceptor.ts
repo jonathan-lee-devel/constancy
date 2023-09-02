@@ -1,16 +1,23 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {catchError, Observable} from 'rxjs';
+import {catchError, EMPTY, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {ModalService} from '../services/modal/modal.service';
 import {LoadingService} from '../services/loading/loading.service';
 import {RoutePaths} from '../app-routing.module';
 import {HttpStatus} from '../common/enums/HttpStatus';
 import {environment} from '../../environments/environment';
+import {AuthService} from '../services/auth/auth.service';
+import {RouterInfoService} from '../services/router-info/router-info.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private modalService: ModalService, private loadingService: LoadingService) {
+  constructor(private router: Router,
+              private authService: AuthService,
+              private modalService: ModalService,
+              private loadingService: LoadingService,
+              private routerInfoService: RouterInfoService,
+  ) {
 
   }
 
@@ -23,9 +30,16 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private handleError(error: HttpErrorResponse): Observable<HttpEvent<unknown>> {
-    this.loadingService.onLoadingFinished();
+    this.loadingService.onAllLoadingFinished();
     if (error.status === 0) {
-      window.location.href = environment.JENKINS_SERVICE_API_URL;
+      window.location.href = environment.API_URL;
+    }
+
+    if (error.url?.endsWith('/oauth2/authorization/keycloak')) {
+      if (!(!this.routerInfoService.getPreviousUrl() && this.router.url === '/')) { // If the user was not logged in
+        this.authService.onSuccessfulLogout();
+      }
+      return EMPTY; // Do nothing if the user is a first-time user viewing the landing page
     }
 
     if (error.status === HttpStatus.BAD_REQUEST) {
@@ -48,6 +62,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.UNAUTHORIZED) {
+      this.authService.onSuccessfulLogout();
       this.modalService.showDefaultModal('Authentication Error', 'Invalid Login Credentials');
       this.router.navigate([`/${RoutePaths.LANDING_PAGE}`]).catch((reason) => window.alert(reason));
     }

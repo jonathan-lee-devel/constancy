@@ -20,11 +20,11 @@ export class RegisterService {
       password: string,
       confirmPassword: string,
       acceptTermsAndConditions: boolean) {
-    window.location.href = `${environment.JENKINS_SERVICE_API_URL}/realms/constancy/login-actions/registration?client_id=constancy-java-client`;
+    window.location.href = `${environment.API_URL}/realms/constancy/login-actions/registration?client_id=constancy-java-client`;
   }
 
   doConfirmRegister(tokenValue: string) {
-    this.httpClient.post<RegisterDto>(`${environment.JENKINS_SERVICE_API_URL}/register/confirm`, {tokenValue})
+    this.httpClient.post<RegisterDto>(`${environment.API_URL}/register/confirm`, {tokenValue})
         .subscribe((registerDto) => {
           let message: string;
           let shouldRedirect = false;

@@ -5,8 +5,10 @@ constancy:
     url: http://localhost:8080
   gateway:
     url: http://localhost:8081
-  organization-service:
+  index-service:
     url: http://localhost:8082
+  organization-service:
+    url: http://localhost:8083
 server:
   port: ${ORGANIZATION_SERVICE_PORT}
 spring:

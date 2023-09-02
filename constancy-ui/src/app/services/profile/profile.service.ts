@@ -11,6 +11,6 @@ export class ProfileService {
   constructor(private httpClient: HttpClient) { }
 
   getUserInfo(): Observable<UserDto> {
-    return this.httpClient.get<UserDto>(`${environment.JENKINS_SERVICE_API_URL}/profile`);
+    return this.httpClient.get<UserDto>(`${environment.API_URL}/profile`);
   }
 }

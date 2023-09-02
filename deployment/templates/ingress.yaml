@@ -8,10 +8,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-      - {{ .Values.environment.hostPrefix }}constancy.live
-      secretName: constancy-tls-{{ .Values.environment.name }}
+{{/*  tls:*/}}
+{{/*    - hosts:*/}}
+{{/*      - {{ .Values.environment.hostPrefix }}constancy.live*/}}
+{{/*      secretName: constancy-tls-{{ .Values.environment.name }}*/}}
   rules:
     - host: {{ .Values.environment.hostPrefix }}constancy.live
       http:

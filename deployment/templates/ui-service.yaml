@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applicationName }}-ui-service
+  namespace: constancy-{{ .Values.environment.name }}
+  labels:
+    app: {{ .Values.applicationName }}
+    chart: {{ template "constancy.chart" . }}
+    component: "{{ .Values.ui.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+{{- if eq .Values.environment.name "development" }}
+      nodePort: {{ .Values.ui.service.nodePort }}
+  type: NodePort
+{{- end }}
+  selector:
+    app: {{ template "constancy.fullname" . }}
+    component: "{{ .Values.ui.name }}"
+    release: {{ .Release.Name }}

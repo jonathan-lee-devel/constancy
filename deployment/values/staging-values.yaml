@@ -1,0 +1,22 @@
+applicationName: constancy
+replicaCount: 1
+
+environment:
+  name: staging
+  hostPrefix: staging.
+
+ui:
+  name: ui
+  image:
+    repository: jonathanleedev/constancy-ui
+    tag: stage-0.2.12
+    pullPolicy: Always
+  port: 80
+
+api:
+  name: api
+  image:
+    repository: jonathanleedev/constancy-api
+    tag: 0.2.12
+    pullPolicy: Always
+  port: 3000

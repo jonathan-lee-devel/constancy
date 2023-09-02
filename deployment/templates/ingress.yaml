@@ -1,0 +1,26 @@
+{{- if or (eq .Values.environment.name "staging") (eq .Values.environment.name "production") -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: constancy-{{ .Values.environment.name }}-ingress
+  namespace: constancy-{{ .Values.environment.name }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - {{ .Values.environment.hostPrefix }}constancy.live
+      secretName: constancy-tls-{{ .Values.environment.name }}
+  rules:
+    - host: {{ .Values.environment.hostPrefix }}constancy.live
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.applicationName }}-ui-service
+                port:
+                  number: 80
+{{- end -}}

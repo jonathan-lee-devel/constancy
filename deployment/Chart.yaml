@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: '0.1'
+description: Customer-to-Business interaction platform
+name: constancy
+version: 0.1.0
+sources:
+  - https://github.com/jonathan-lee-devel/constancy
+dependencies:
+  - name: nginx-ingress
+    version: 1.41.2
+    repository: https://charts.helm.sh/stable

@@ -41,3 +41,8 @@ dependencyManagement {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.bootBuildImage {
+	imageName.set("jonathanleedev/constancy-api-gateway:0.0.1-SNAPSHOT")
+	createdDate.set("now")
+}

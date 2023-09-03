@@ -37,3 +37,8 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.bootBuildImage {
+	imageName.set("jonathanleedev/constancy-index-service:0.0.1-SNAPSHOT")
+	createdDate.set("now")
+}

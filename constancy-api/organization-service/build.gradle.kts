@@ -44,7 +44,8 @@ tasks.bootBuildImage {
 	docker {
 		publishRegistry {
 			username.set("jonathanleedev")
-			token.set("${System.getenv()["DOCKERHUB_TOKEN"]}")
+			password.set("${System.getenv()["DOCKERHUB_TOKEN"]}")
 		}
 	}
+	publish.set(true)
 }

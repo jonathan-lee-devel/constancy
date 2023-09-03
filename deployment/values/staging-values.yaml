@@ -13,10 +13,10 @@ ui:
     pullPolicy: Always
   port: 80
 
-api:
-  name: api
+organizationsService:
+  name: organizations-service
   image:
-    repository: jonathanleedev/constancy-api
-    tag: 0.1.0
+    repository: jonathanleedev/constancy-organizations-service
+    tag: 0.0.1
     pullPolicy: Always
-  port: 3000
+  port: 8082

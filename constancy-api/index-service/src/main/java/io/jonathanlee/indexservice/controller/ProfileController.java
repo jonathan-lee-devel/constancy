@@ -15,11 +15,13 @@ public class ProfileController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserDto> getProfile(Principal principal) {
-    return ResponseEntity.ok(UserDto.builder()
+    return ResponseEntity.ok(
+        UserDto.builder()
             .id(PrincipalHelper.extractUserId(principal))
             .firstName(PrincipalHelper.extractFirstName(principal))
             .lastName(PrincipalHelper.extractLastName(principal))
-        .build());
+        .build()
+    );
   }
 
 }

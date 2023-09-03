@@ -40,7 +40,7 @@ spring:
         registration:
           keycloak:
             client-id: constancy-java-client
-            client-secret: CRqc9v3r0tIHS9EJKQ0288ZafesHvR2F
+            client-secret: ICMPT365ZyRAgTYZWp1Fidzhj5oSXr2g
             authorization-grant-type: authorization_code
             scope: openid
         provider:

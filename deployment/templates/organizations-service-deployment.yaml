@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "constancy.fullname" . }}-organizations-service-deployment
+  namespace: constancy-{{ .Values.environment.name }}
+  labels:
+    app: {{ template "constancy.fullname" . }}
+    chart: {{ template "constancy.chart" . }}
+    component: "{{ .Values.organizationsService.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "constancy.fullname" . }}
+      component: "{{ .Values.organizationsService.name }}"
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "constancy.fullname" . }}
+        component: "{{ .Values.organizationsService.name }}"
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ template "constancy.fullname" . }}-ui
+          image: "{{ .Values.organizationsService.image.repository }}:{{ .Values.organizationsService.image.tag }}"
+          imagePullPolicy: "{{ .Values.organizationsService.image.pullPolicy }}"
+          livenessProbe:
+            httpGet:
+              port: 8082
+              path: /
+            initialDelaySeconds: 3
+            periodSeconds: 3
+      restartPolicy: Always
+status: {}

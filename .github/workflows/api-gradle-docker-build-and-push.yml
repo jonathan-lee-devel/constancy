@@ -27,6 +27,3 @@ jobs:
         with:
           build-root-directory: ./constancy-api
           arguments: bootBuildImage
-        run: |
-          docker push jonathanleedev/index-service:0.0.1-SNAPSHOT
-          docker push jonathanleedev/organization-service:0.0.1-SNAPSHOT

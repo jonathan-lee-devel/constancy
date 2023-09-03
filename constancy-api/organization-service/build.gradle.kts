@@ -41,4 +41,10 @@ tasks.withType<Test> {
 tasks.bootBuildImage {
 	imageName.set("jonathanleedev/constancy-organization-service:0.0.1-SNAPSHOT")
 	createdDate.set("now")
+	docker {
+		publishRegistry {
+			username.set("jonathanleedev")
+			token.set("${System.getenv()["DOCKERHUB_TOKEN"]}")
+		}
+	}
 }

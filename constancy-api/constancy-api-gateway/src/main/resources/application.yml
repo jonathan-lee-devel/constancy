@@ -10,7 +10,7 @@ constancy:
   organization-service:
     url: http://localhost:8083
 server:
-  port: ${GATEWAY_PORT}
+  port: 8081
 spring:
   cloud:
     gateway:

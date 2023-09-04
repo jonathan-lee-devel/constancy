@@ -10,7 +10,7 @@ constancy:
   organization-service:
     url: http://localhost:8083
 server:
-  port: ${ORGANIZATION_SERVICE_PORT}
+  port: 8083
 spring:
   data:
     mongodb:

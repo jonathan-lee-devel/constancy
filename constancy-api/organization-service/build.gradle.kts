@@ -47,5 +47,5 @@ tasks.bootBuildImage {
 			password.set("${System.getenv()["DOCKERHUB_TOKEN"]}")
 		}
 	}
-	publish.set(true)
+	publish.set(System.getenv()["SHOULD_PUBLISH"].toBoolean())
 }

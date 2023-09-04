@@ -23,4 +23,5 @@ jobs:
           build-root-directory: ./constancy-api
           arguments: bootBuildImage
         env:
+          SHOULD_PUBLISH: true
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

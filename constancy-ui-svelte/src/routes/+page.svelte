@@ -1,1 +1,9 @@
-<h1>Welcome to Constancy</h1>
+<div class="container pt-5 justify-center">
+    <h1 class="text-3xl font-bold underline-offset-2">Welcome to Constancy</h1>
+</div>
+
+<style lang="postcss">
+    :global(html) {
+        background-color: dimgrey;
+    }
+</style>

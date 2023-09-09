@@ -1,9 +1,11 @@
 <script>
-    import Counter from "./Counter.svelte";
+    import Counter from "../components/Counter.svelte";
 </script>
 
-<div class="container pt-5 justify-center">
+<div class="w-full flex justify-center items-center pt-5">
     <h1 class="text-3xl font-bold underline-offset-2">Welcome to Constancy</h1>
+</div>
+<div class="w-full flex justify-center items-center">
     <Counter />
 </div>
 
